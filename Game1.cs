@@ -9,11 +9,21 @@ namespace Delivery_Dog_Fight
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        //   Delivery Dogfight
+        //   Maxym Fediw
+
+        Texture2D introJetTexture, cockpitTexture, upsJetTexture, fedExJetTexture, explosionTexture;
+
+        Rectangle upsJetRect, fedExJetRect;
+
+
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
         }
 
         protected override void Initialize()
