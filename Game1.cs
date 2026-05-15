@@ -12,11 +12,13 @@ namespace Delivery_Dog_Fight
         //   Delivery Dogfight
         //   Maxym Fediw
 
+        MouseState mouseState, prevMouseState;
+
         Texture2D introJetTexture, cockpitTexture, upsJetTexture, fedExJetTexture, explosionTexture;
 
-        Rectangle upsJetRect, fedExJetRect;
+        Rectangle upsJetBigRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, window;
 
-
+        SpriteFont textFont;
 
         public Game1()
         {
@@ -29,6 +31,25 @@ namespace Delivery_Dog_Fight
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+
+         //                       X, Y, Width, Height
+            window = new Rectangle(0, 0, 500, 355);
+
+            _graphics.PreferredBackBufferHeight = window.Height;
+            _graphics.PreferredBackBufferWidth = window.Width;
+            _graphics.ApplyChanges();
+
+            upsJetBigRect = new Rectangle(20, 20, 150, 49);
+
+            fedExBigRect = new Rectangle(20, 40, 150, 49);
+
+            upsJetSmallRect = new Rectangle (20, 60, 100, 32);
+
+            fedExSmallRect = new Rectangle(20, 80, 100, 32);
+
+            
+
 
             base.Initialize();
         }
