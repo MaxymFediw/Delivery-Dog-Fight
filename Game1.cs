@@ -16,7 +16,7 @@ namespace Delivery_Dog_Fight
 
         Texture2D introJetTexture, cockpitTexture, upsJetTexture, fedExJetTexture, explosionTexture;
 
-        Rectangle upsJetBigRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, window;
+        Rectangle upsJetBigRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, introJetRect, window;
 
         SpriteFont textFont;
 
@@ -48,7 +48,7 @@ namespace Delivery_Dog_Fight
 
             fedExSmallRect = new Rectangle(20, 80, 100, 32);
 
-            
+            introJetRect = new Rectangle(200, 100, 400, 136);
 
 
             base.Initialize();
