@@ -33,7 +33,7 @@ namespace Delivery_Dog_Fight
 
         SpriteFont textFont;
 
-        Vector2 upsSmallSpeed, upsBigSpeed, fedExSmallSpeed, fedExBigSpeed, amazonBigSpeed, amazonSmallSpeed, canSmallSped, canBigSpeed, dhlSmallSpeed, dhlBigSpeed;
+        Vector2 upsSmallSpeed, upsBigSpeed, fedExSmallSpeed, fedExBigSpeed, amazonBigSpeed, amazonSmallSpeed, canSmallSpeed, canBigSpeed, dhlSmallSpeed, dhlBigSpeed;
 
         bool level1 = false, level2 = false, level3 = false;
 
@@ -68,11 +68,15 @@ namespace Delivery_Dog_Fight
 
             fedExSmallRect = new Rectangle(80, 210, 100, 32);
 
-            introJetRect = new Rectangle(200, 100, 400, 136);
+            introJetRect = new Rectangle(200, 100, 500, 144);
 
             cockpitRect = new Rectangle(0, 10, 1000, 710);  // Smaller: 0, 20, 500, 355   Bigger: 0, 10, 1000, 710
 
             quitRect = new Rectangle(431, 673, 123, 29); //Click "Eject" to end early.
+
+            canBigRect = new Rectangle(5, 204, 300, 86);
+
+            canSmallRect = new Rectangle(540, 160, 100, 29);
 
             //if (level1) 
             //{
@@ -87,8 +91,11 @@ namespace Delivery_Dog_Fight
             upsBigSpeed = new Vector2(6, 0);
             upsSmallSpeed = new Vector2(2, 0);
 
-            fedExBigSpeed = new Vector2(1, 0);
+            fedExBigSpeed = new Vector2(1, 0);     //Play around with these speeds to make the game more fun and challenging!
             fedExSmallSpeed = new Vector2(3, 0);
+
+            canSmallSpeed = new Vector2(4, 0);
+            canBigSpeed = new Vector2(5, 0);
 
             base.Initialize();
         }
@@ -97,7 +104,7 @@ namespace Delivery_Dog_Fight
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //introJetTexture = Content.Load<Texture2D>(""); //Change this To The Canada Post Jet btw
+            introJetTexture = Content.Load<Texture2D>("canadaPostIntro");
 
             cockpitTexture = Content.Load<Texture2D>("CockpitTransparentDone");
 
@@ -110,6 +117,12 @@ namespace Delivery_Dog_Fight
             fedExJetTextureSmall = Content.Load<Texture2D>("fedExJetSmall");
 
             explosionTexture = Content.Load<Texture2D>("explosion");
+
+            canJetBigTexture = Content.Load<Texture2D>("canadaPostBig");
+
+            canJetSmallTexture = Content.Load<Texture2D>("canadaPostSmall");
+
+            textFont = Content.Load<SpriteFont>("textFont");
 
             // TODO: use this.Content to load your game content here
         }
@@ -132,6 +145,10 @@ namespace Delivery_Dog_Fight
             fedExBigRect.X += (int)fedExBigSpeed.X;
 
             fedExSmallRect.X += (int)fedExSmallSpeed.X;
+
+            canSmallRect.X += (int)canSmallSpeed.X;
+
+            canBigRect.X += (int)canBigSpeed.X;
 
 
 
@@ -156,11 +173,15 @@ namespace Delivery_Dog_Fight
 
             _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
 
+            _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
+
+            _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
 
 
 
 
-            _spriteBatch.DrawString(textFont, ("The End"), new Vector2(20, 20), Color.Red); //fix this - "textFont" is bugging
+
+           /* _spriteBatch.DrawString(textFont, ("Test"), new Vector2 (20, 20), Color.White);  */   // fix this - "textFont" is bugging
 
 
             _spriteBatch.End();
