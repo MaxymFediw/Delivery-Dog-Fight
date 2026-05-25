@@ -27,9 +27,9 @@ namespace Delivery_Dog_Fight
 
         MouseState mouseState, prevMouseState;
 
-        Texture2D introJetTexture, cockpitTexture, upsJetTextureBig, upsJetTextureSmall, fedExJetTextureBig, fedExJetTextureSmall, canJetSmallTexture, canJetBigTexture, dhlJetBigTexture, dhlJetSmallTexture, amazonJetSmallTexture, amazonJetBigTexture, explosionTexture;
+        Texture2D introJetTexture, crossHairTexture, cockpitTexture, upsJetTextureBig, upsJetTextureSmall, fedExJetTextureBig, fedExJetTextureSmall, canJetSmallTexture, canJetBigTexture, dhlJetBigTexture, dhlJetSmallTexture, amazonJetSmallTexture, amazonJetBigTexture, explosionTexture;
 
-        Rectangle upsJetBigRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, canSmallRect, canBigRect, amazonSmallRect, amazonBigRect, dhlSmallRect, dhlBigRect, introJetRect, window, quitRect, cockpitRect;
+        Rectangle upsJetBigRect, crossHairRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, canSmallRect, canBigRect, amazonSmallRect, amazonBigRect, dhlSmallRect, dhlBigRect, introJetRect, window, quitRect, cockpitRect;
 
         SpriteFont textFont;
 
@@ -44,7 +44,7 @@ namespace Delivery_Dog_Fight
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
 
         }
 
@@ -76,7 +76,14 @@ namespace Delivery_Dog_Fight
 
             canBigRect = new Rectangle(5, 204, 300, 86);
 
+            dhlBigRect = new Rectangle(300, 204, 300, 96); 
+
+            dhlSmallRect = new Rectangle(540, 204, 100, 32);
+
+
             canSmallRect = new Rectangle(540, 160, 100, 29);
+
+            //crossHairRect = new Rectangle(mouseState.X, mouseState.Y, 39, 50);
 
             //if (level1) 
             //{
@@ -120,6 +127,8 @@ namespace Delivery_Dog_Fight
 
             canJetBigTexture = Content.Load<Texture2D>("canadaPostBig");
 
+            crossHairTexture = Content.Load<Texture2D>("crosshairTransparent");
+
             canJetSmallTexture = Content.Load<Texture2D>("canadaPostSmall");
 
             textFont = Content.Load<SpriteFont>("textFont");
@@ -135,7 +144,9 @@ namespace Delivery_Dog_Fight
             prevMouseState = mouseState;
            
             mouseState = Mouse.GetState();
-            
+
+            crossHairRect = new Rectangle(mouseState.X - 39, mouseState.Y - 50, 39, 50);
+
             this.Window.Title = "" + mouseState.X + "," + mouseState.Y;
 
             upsJetSmallRect.X += (int)upsSmallSpeed.X;
@@ -172,6 +183,8 @@ namespace Delivery_Dog_Fight
             _spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
 
             _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
+
+            _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
 
             _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
 
