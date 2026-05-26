@@ -104,6 +104,9 @@ namespace Delivery_Dog_Fight
             canSmallSpeed = new Vector2(4, 0);
             canBigSpeed = new Vector2(5, 0);
 
+            dhlSmallSpeed = new Vector2(3, 0);
+            dhlBigSpeed = new Vector2(4, 0);
+
             base.Initialize();
         }
 
@@ -130,6 +133,10 @@ namespace Delivery_Dog_Fight
             crossHairTexture = Content.Load<Texture2D>("crosshairTransparent");
 
             canJetSmallTexture = Content.Load<Texture2D>("canadaPostSmall");
+
+            dhlJetBigTexture = Content.Load<Texture2D>("dhlJetBig");
+
+            dhlJetSmallTexture = Content.Load<Texture2D>("DHLJetSmall");
 
             textFont = Content.Load<SpriteFont>("textFont");
 
@@ -161,6 +168,9 @@ namespace Delivery_Dog_Fight
 
             canBigRect.X += (int)canBigSpeed.X;
 
+            dhlSmallRect.X += (int)dhlSmallSpeed.X;
+
+            dhlBigRect.X += (int)dhlBigSpeed.X;
 
 
             // TODO: Add your update logic here
@@ -190,11 +200,11 @@ namespace Delivery_Dog_Fight
 
             _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
 
+            _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
 
+            _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
 
-
-
-           /* _spriteBatch.DrawString(textFont, ("Test"), new Vector2 (20, 20), Color.White);  */   // fix this - "textFont" is bugging
+            /* _spriteBatch.DrawString(textFont, ("Test"), new Vector2 (20, 20), Color.White);  */   // fix this - "textFont" is bugging
 
 
             _spriteBatch.End();
