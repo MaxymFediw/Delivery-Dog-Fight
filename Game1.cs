@@ -68,6 +68,10 @@ namespace Delivery_Dog_Fight
 
             fedExSmallRect = new Rectangle(80, 210, 100, 32);
 
+            amazonBigRect = new Rectangle(20, 300, 300, 80);
+
+            amazonSmallRect = new Rectangle(40, 450, 100, 27);
+
             introJetRect = new Rectangle(200, 100, 500, 144);
 
             cockpitRect = new Rectangle(0, 10, 1000, 710);  // Smaller: 0, 20, 500, 355   Bigger: 0, 10, 1000, 710
@@ -98,7 +102,7 @@ namespace Delivery_Dog_Fight
             upsBigSpeed = new Vector2(6, 0);
             upsSmallSpeed = new Vector2(2, 0);
 
-            fedExBigSpeed = new Vector2(1, 0);     //Play around with these speeds to make the game more fun and challenging!
+            fedExBigSpeed = new Vector2(1, 0);     //Play around with these speeds...
             fedExSmallSpeed = new Vector2(3, 0);
 
             canSmallSpeed = new Vector2(4, 0);
@@ -106,6 +110,9 @@ namespace Delivery_Dog_Fight
 
             dhlSmallSpeed = new Vector2(3, 0);
             dhlBigSpeed = new Vector2(4, 0);
+
+            amazonBigSpeed = new Vector2(2, 0);
+            amazonSmallSpeed = new Vector2(4, 0);   
 
             base.Initialize();
         }
@@ -138,7 +145,11 @@ namespace Delivery_Dog_Fight
 
             dhlJetSmallTexture = Content.Load<Texture2D>("DHLJetSmall");
 
-            textFont = Content.Load<SpriteFont>("textFont");
+            amazonJetBigTexture = Content.Load<Texture2D>("AmazonJetBig"); //Fix both amazons- make em higher up on the Y-Axis...
+
+            amazonJetSmallTexture = Content.Load<Texture2D>("AmazonJetSmall");
+
+            textFont = Content.Load<SpriteFont>("TextFont1");
 
             // TODO: use this.Content to load your game content here
         }
@@ -172,6 +183,10 @@ namespace Delivery_Dog_Fight
 
             dhlBigRect.X += (int)dhlBigSpeed.X;
 
+            amazonSmallRect.X += (int)amazonSmallSpeed.X;
+
+            amazonBigRect.X += (int)amazonBigSpeed.X;
+
 
             // TODO: Add your update logic here
 
@@ -204,7 +219,11 @@ namespace Delivery_Dog_Fight
 
             _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
 
-            /* _spriteBatch.DrawString(textFont, ("Test"), new Vector2 (20, 20), Color.White);  */   // fix this - "textFont" is bugging
+            _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
+
+            _spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
+
+            _spriteBatch.DrawString(textFont, "Take Em OUT!!", new Vector2(20, 20), Color.White);     
 
 
             _spriteBatch.End();
