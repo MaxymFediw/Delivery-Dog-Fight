@@ -97,6 +97,12 @@
 /processorParam:TextureFormat=Color
 /build:crosshairTransparent.png
 
+#begin dangerZone.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:dangerZone.mp3
+
 #begin dhlJetBig.png
 /importer:TextureImporter
 /processor:TextureProcessor
