@@ -34,19 +34,21 @@ namespace Delivery_Dog_Fight
 
         Texture2D introJetTexture, crossHairTexture, cockpitTexture, upsJetTextureBig, upsJetTextureSmall, fedExJetTextureBig, fedExJetTextureSmall, canJetSmallTexture, canJetBigTexture, dhlJetBigTexture, dhlJetSmallTexture, amazonJetSmallTexture, amazonJetBigTexture, explosionTexture;
 
-        Rectangle upsJetBigRect, crossHairRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, canSmallRect, canBigRect, amazonSmallRect, amazonBigRect, dhlSmallRect, dhlBigRect, introJetRect, window, quitRect, cockpitRect;
+        Rectangle upsJetBigRect, crossHairRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, canSmallRect, canBigRect, amazonSmallRect, amazonBigRect, dhlSmallRect, dhlBigRect, introJetRect, window, quitRect, cockpitRect, explosionRect;
 
         SpriteFont textFont;
 
         Vector2 upsSmallSpeed, upsBigSpeed, fedExSmallSpeed, fedExBigSpeed, amazonBigSpeed, amazonSmallSpeed, canSmallSpeed, canBigSpeed, dhlSmallSpeed, dhlBigSpeed;
 
-        bool level1 = false, level2 = false, level3 = false;
+        bool level1 = false, level2 = false, level3 = false, exploded;
 
         SoundEffect shootSound, explosionSound, dangerZoneSong;
 
         SoundEffectInstance shootSoundInstance, explosionSoundInstance, dangerZoneInstance;
 
+        //MAKE LISTS FOR PLANES 
 
+        //To shoot down jets, use the kinda stuff we did in the bomb lesson...
 
 
         public Game1()
@@ -68,6 +70,11 @@ namespace Delivery_Dog_Fight
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.ApplyChanges();
+
+            exploded = false;
+
+
+            explosionRect = new Rectangle(0, 0, 100, 100);
 
             upsJetBigRect = new Rectangle(20, 20, 300, 98);
 
@@ -158,11 +165,11 @@ namespace Delivery_Dog_Fight
 
             amazonJetSmallTexture = Content.Load<Texture2D>("AmazonJetSmall");
 
-            dangerZoneSong = Content.Load<SoundEffect>("dangerZone");
+            //dangerZoneSong = Content.Load<SoundEffect>("dangerZone");
 
             textFont = Content.Load<SpriteFont>("TextFont1");
 
-            dangerZoneInstance = dangerZoneSong.CreateInstance();
+            //dangerZoneInstance = dangerZoneSong.CreateInstance();
 
 
             // TODO: use this.Content to load your game content here
@@ -225,10 +232,22 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.Level1)
             {
-                //if () 
-                //{
-                //    screen = Screen.Level2;
-                //}
+                upsBigSpeed = new Vector2(2, 0);
+
+                fedExBigSpeed = new Vector2(1, 0);
+
+                canBigSpeed = new Vector2(3, 0);
+
+                dhlBigSpeed = new Vector2(2, 0);
+
+                amazonBigSpeed = new Vector2(3, 0);
+
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && upsJetBigRect.Contains(mouseState.Position))
+                {
+                    exploded = true;
+
+                    explosionRect = upsJetBigRect;
+                }
             }
 
             else if (screen == Screen.Level2) 
@@ -266,6 +285,7 @@ namespace Delivery_Dog_Fight
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            _spriteBatch.Begin();
 
             if (screen == Screen.LevelSelect)
             {
@@ -295,13 +315,17 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
                 
                 _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
-                
-                
 
+
+                
+            }
+
+            if (exploded) 
+            {
+                _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
             }
 
 
-            _spriteBatch.Begin();
 
             _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
 
