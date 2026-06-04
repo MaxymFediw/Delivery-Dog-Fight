@@ -127,6 +127,12 @@
 /processorParam:TextureFormat=Color
 /build:DHLJetSmall.png
 
+#begin explosion (1).wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:explosion (1).wav
+
 #begin explosion.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -162,6 +168,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:fedExJetSmall.png
+
+#begin gameHome.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameHome.jpg
+
+#begin gameHome100.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameHome100.png
+
+#begin gameHomeK.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameHomeK.png
 
 #begin IntroJet.png
 /importer:TextureImporter

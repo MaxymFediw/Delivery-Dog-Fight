@@ -32,9 +32,9 @@ namespace Delivery_Dog_Fight
 
         KeyboardState keyboardState, prevKeyboardState;
 
-        Texture2D introJetTexture, crossHairTexture, cockpitTexture, upsJetTextureBig, upsJetTextureSmall, fedExJetTextureBig, fedExJetTextureSmall, canJetSmallTexture, canJetBigTexture, dhlJetBigTexture, dhlJetSmallTexture, amazonJetSmallTexture, amazonJetBigTexture, explosionTexture;
+        Texture2D introJetTexture, homeScreentexture, crossHairTexture, cockpitTexture, upsJetTextureBig, upsJetTextureSmall, fedExJetTextureBig, fedExJetTextureSmall, canJetSmallTexture, canJetBigTexture, dhlJetBigTexture, dhlJetSmallTexture, amazonJetSmallTexture, amazonJetBigTexture, explosionTexture;
 
-        Rectangle upsJetBigRect, crossHairRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, canSmallRect, canBigRect, amazonSmallRect, amazonBigRect, dhlSmallRect, dhlBigRect, introJetRect, window, quitRect, cockpitRect, explosionRect;
+        Rectangle upsJetBigRect, playRect, gameHomeRect, crossHairRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, canSmallRect, canBigRect, amazonSmallRect, amazonBigRect, dhlSmallRect, dhlBigRect, introJetRect, window, quitRect, cockpitRect, explosionRect;
 
         SpriteFont textFont;
 
@@ -88,7 +88,7 @@ namespace Delivery_Dog_Fight
 
             amazonSmallRect = new Rectangle(40, 160, 100, 27);
 
-            introJetRect = new Rectangle(200, 100, 500, 144);
+            introJetRect = new Rectangle(277, 25, 500, 144);
 
             cockpitRect = new Rectangle(0, 10, 1000, 710);  // Smaller: 0, 20, 500, 355   Bigger: 0, 10, 1000, 710
 
@@ -98,8 +98,13 @@ namespace Delivery_Dog_Fight
 
             dhlBigRect = new Rectangle(300, 204, 300, 96); 
 
+            playRect = new Rectangle(395, 290, 188, 48); 
+
+            quitRect = new Rectangle(455, 446, 95, 42);
+
             dhlSmallRect = new Rectangle(540, 204, 100, 32);
 
+            gameHomeRect = new Rectangle(0, 0, 1000, 710);
 
             canSmallRect = new Rectangle(540, 160, 100, 29);
 
@@ -151,6 +156,8 @@ namespace Delivery_Dog_Fight
 
             explosionTexture = Content.Load<Texture2D>("explosion");
 
+            homeScreentexture = Content.Load<Texture2D>("gameHome100");
+
             canJetBigTexture = Content.Load<Texture2D>("canadaPostBig");
 
             crossHairTexture = Content.Load<Texture2D>("crosshairTransparent");
@@ -168,6 +175,8 @@ namespace Delivery_Dog_Fight
             //dangerZoneSong = Content.Load<SoundEffect>("dangerZone");
 
             textFont = Content.Load<SpriteFont>("TextFont1");
+
+            explosionSound = Content.Load<SoundEffect>("explosion (1)");
 
             //dangerZoneInstance = dangerZoneSong.CreateInstance();
 
@@ -214,7 +223,7 @@ namespace Delivery_Dog_Fight
 
             if (screen == Screen.LevelSelect)
             {
-                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && playRect.Contains(mouseState.Position))
                 {
                     screen = Screen.TipScreen;
                 }
@@ -289,9 +298,14 @@ namespace Delivery_Dog_Fight
 
             if (screen == Screen.LevelSelect)
             {
+                
+                _spriteBatch.Draw(homeScreentexture, gameHomeRect, Color.White);
+
                 _spriteBatch.Draw(introJetTexture, introJetRect, Color.White);
 
-                _spriteBatch.DrawString(textFont, "Click E to Start!", new Vector2(400, 300), Color.White);
+                _spriteBatch.DrawString(textFont, " ", new Vector2(400, 300), Color.Black); //fix the background w/ Chat to get rid of the plane and title
+
+                IsMouseVisible = true;
             }
 
 
@@ -323,35 +337,37 @@ namespace Delivery_Dog_Fight
             if (exploded) 
             {
                 _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
+
+                explosionSound.Play();
             }
 
 
 
-            _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
+            //_spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
 
-            _spriteBatch.Draw(upsJetTextureBig, upsJetBigRect, Color.White);
+            //_spriteBatch.Draw(upsJetTextureBig, upsJetBigRect, Color.White);
 
-            _spriteBatch.Draw(upsJetTextureSmall, upsJetSmallRect, Color.White);
+            //_spriteBatch.Draw(upsJetTextureSmall, upsJetSmallRect, Color.White);
 
-            _spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
+            //_spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
 
-            _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
+            //_spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
 
-            _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
+            //_spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
 
-            _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
+            //_spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
 
-            _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
+            //_spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
 
-            _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
+            //_spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
 
-            _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
+            //_spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
 
-            _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
+            //_spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
 
-            _spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
+            //_spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
 
-            _spriteBatch.DrawString(textFont, "Take Em OUT!!", new Vector2(20, 20), Color.White);   
+            //_spriteBatch.DrawString(textFont, "Take Em OUT!!", new Vector2(20, 20), Color.White);   
             
             
             //Create th explosion, and how to detect when a plane was shot  :D
