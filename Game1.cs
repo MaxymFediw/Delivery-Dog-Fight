@@ -235,6 +235,9 @@ namespace Delivery_Dog_Fight
             
             else if (screen == Screen.Level1)
             {
+
+                IsMouseVisible = false;
+
                 upsBigSpeed = new Vector2(2, 0);
 
                 fedExBigSpeed = new Vector2(1, 0);
@@ -270,8 +273,30 @@ namespace Delivery_Dog_Fight
                 {
                     exploded = true;
 
+                    //upsBigSpeed.Y = 1;
+
+                    //upsJetBigRect.X += (int)upsBigSpeed.X;
+                    //upsJetBigRect.Y += (int)upsBigSpeed.Y;
+
                     explosionRect = upsJetBigRect;
                 }
+
+                if (exploded = true) 
+                {
+                    upsBigSpeed.Y = 1;
+
+                    upsJetBigRect.X += (int)upsBigSpeed.X;
+                    upsJetBigRect.Y += (int)upsBigSpeed.Y;
+                }
+
+                if(exploded != true) 
+                {
+                    upsBigSpeed.Y = 0;
+                    upsJetBigRect.X += (int)upsBigSpeed.X;
+                    upsJetBigRect.Y += (int)upsBigSpeed.Y;   //FIX THIS SO THE PLANE DOESNT START FALLING IMMEDIATELY, ONLY AFTER IT GETS SHOT. ALSO MAKE IT FALL FASTER THAN IT FLIES.                            
+                }
+
+
 
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && upsJetSmallRect.Contains(mouseState.Position))
                 {
@@ -283,6 +308,11 @@ namespace Delivery_Dog_Fight
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && canBigRect.Contains(mouseState.Position))
                 {
                     exploded4 = true;
+
+                    canBigSpeed.Y = 1;
+
+                    canBigRect.X += (int)canBigSpeed.X;
+                    canBigRect.Y += (int)canBigSpeed.Y;
 
                     explosionRect = canBigRect;
                 }
@@ -297,6 +327,11 @@ namespace Delivery_Dog_Fight
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && amazonBigRect.Contains(mouseState.Position))
                 {
                     exploded8 = true;
+                    
+                    amazonBigSpeed.Y = 1;
+
+                    amazonBigRect.X += (int)amazonBigSpeed.X;
+                    amazonBigRect.Y += (int)amazonBigSpeed.Y;
 
                     explosionRect = amazonBigRect;
 
@@ -316,6 +351,11 @@ namespace Delivery_Dog_Fight
                 {
                     exploded6 = true;
 
+                    dhlBigSpeed.Y = 1;
+
+                    dhlBigRect.X += (int)dhlBigSpeed.X;
+                    dhlBigRect.Y += (int)dhlBigSpeed.Y;
+
                     explosionRect = dhlBigRect;
                 }
 
@@ -329,6 +369,11 @@ namespace Delivery_Dog_Fight
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && fedExBigRect.Contains(mouseState.Position))
                 {
                     exploded2 = true;
+
+                    fedExBigSpeed.Y = 1;
+
+                    fedExBigRect.X += (int)fedExBigSpeed.X;
+                    fedExBigRect.Y += (int)fedExBigSpeed.Y;
 
                     explosionRect = fedExBigRect;
                 }
@@ -352,6 +397,100 @@ namespace Delivery_Dog_Fight
                 if (upsJetBigRect.Left >= window.Right)
                 {
                     upsJetBigRect.X = -300;
+
+                    exploded = false;
+
+                    
+
+                }
+
+                if (upsJetSmallRect.Left >= window.Right)
+                {
+                    upsJetSmallRect.X = -300;
+
+                    exploded1 = false;
+
+                }
+
+
+
+
+
+
+                if (amazonBigRect.Left >= window.Right)
+                {
+                    amazonBigRect.X = -300;
+
+                    exploded = false;
+
+                }
+
+                if (amazonSmallRect.Left >= window.Right)
+                {
+                    amazonSmallRect.X = -300;
+
+                    exploded = false;
+
+                }
+
+
+
+
+
+
+
+                if (canBigRect.Left >= window.Right)
+                {
+                    canBigRect.X = -300;
+
+                    exploded = false;
+
+                }
+
+                if (canSmallRect.Left >= window.Right)
+                {
+                    canSmallRect.X = -300;
+
+                    exploded = false;
+
+                }
+
+
+
+
+
+
+                if (fedExBigRect.Left >= window.Right)
+                {
+                    fedExBigRect.X = -300;
+
+                    exploded = false;
+
+                }
+
+                if (fedExSmallRect.Left >= window.Right)
+                {
+                    fedExSmallRect.X = -300;
+
+                    exploded = false;
+
+                }
+
+
+
+
+
+                if (dhlBigRect.Left >= window.Right)
+                {
+                    dhlBigRect.X = -300;
+
+                    exploded = false;
+
+                }
+               
+                if (dhlSmallRect.Left >= window.Right)
+                {
+                    dhlSmallRect.X = -300;
 
                     exploded = false;
 
@@ -460,13 +599,13 @@ namespace Delivery_Dog_Fight
                 
                 
                 _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
-                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
+                
                 _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
                 
                 _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
                 
                 _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
-
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
 
             }
 
@@ -475,6 +614,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
             if (exploded1)
@@ -482,6 +623,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, upsJetSmallRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
             if (exploded2)
@@ -489,6 +632,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, fedExBigRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
             if (exploded3)
@@ -496,6 +641,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, fedExSmallRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
             if (exploded4)
@@ -503,6 +650,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, canBigRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
             if (exploded5)
@@ -510,6 +659,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
             if (exploded6)
@@ -517,6 +668,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, dhlBigRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
             if (exploded7)
@@ -524,6 +677,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
 
@@ -532,6 +687,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, amazonBigRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
             if (exploded9)
@@ -539,10 +696,12 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(explosionTexture, amazonSmallRect, Color.White);
 
                 explosionSound.Play();
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
 
-
+            
 
 
             //_spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
