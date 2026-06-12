@@ -14,7 +14,7 @@ namespace Delivery_Dog_Fight
         Level1,
         LoadingScreen1,
         LoadingScreen2,
-        Level2,   // bool H = false, ...
+        Level2,   
         Level3,
         FailedScreen,
         Done
@@ -51,9 +51,7 @@ namespace Delivery_Dog_Fight
 
         SoundEffectInstance shootSoundInstance, explosionSoundInstance, dangerZoneInstance;
 
-        //MAKE LISTS FOR PLANES 
-
-        //To shoot down jets, use the kinda stuff we did in the bomb lesson...
+        //Last Things: Clean Up "In Between" Screens, Sound Effects, Music, Fix Front page, Make Eject Button Work, Make "Exit" Button Work.
 
 
         public Game1()
@@ -106,7 +104,7 @@ namespace Delivery_Dog_Fight
 
             amazonBigRect = new Rectangle(20, 120, 300, 110);
 
-            amazonSmallRect = new Rectangle(40, 160, 100, 97); //s
+            amazonSmallRect = new Rectangle(40, 160, 100, 32); //s
 
             introJetRect = new Rectangle(277, 25, 500, 144);
 
@@ -243,7 +241,6 @@ namespace Delivery_Dog_Fight
                 if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
                 {
                     screen = Screen.Level1;
-
                     reset1 = true;
                 }
 
@@ -260,10 +257,30 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.LoadingScreen2)
             {
+
+                upsBigSpeed = new Vector2(6, 0);
+
+                upsSmallSpeed = new Vector2(7, 0);
+
+                fedExBigSpeed = new Vector2(4, 0);
+
+                fedExSmallSpeed = new Vector2(10, 0);
+
+                canBigSpeed = new Vector2(6, 0);
+
+                canSmallSpeed = new Vector2(10, 0);
+
+                dhlBigSpeed = new Vector2(6, 0);
+
+                dhlSmallSpeed = new Vector2(9, 0);
+
+                amazonBigSpeed = new Vector2(8, 0);
+
                 if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
                 {
                     screen = Screen.Level3;
                     reset3 = true;
+
                 }
             }
 
@@ -608,15 +625,15 @@ namespace Delivery_Dog_Fight
                     canSmallRect.X = 540;
                     canSmallRect.Y = 160;
 
-                    upsBigSpeed = new Vector2(3, 0);
+                    upsBigSpeed = new Vector2(2, 0);
 
-                    fedExBigSpeed = new Vector2(2, 0);
+                    fedExBigSpeed = new Vector2(1, 0);
 
-                    canBigSpeed = new Vector2(4, 0);
+                    canBigSpeed = new Vector2(3, 0);
 
-                    dhlBigSpeed = new Vector2(3, 0);
+                    dhlBigSpeed = new Vector2(2, 0);
 
-                    amazonBigSpeed = new Vector2(4, 0);
+                    amazonBigSpeed = new Vector2(3, 0);
 
                     exploded = false;
                     exploded1 = false;
@@ -753,21 +770,23 @@ namespace Delivery_Dog_Fight
                     screen = Screen.LoadingScreen2;
                     upsBigSpeed = new Vector2(6, 0);
 
-                    upsSmallSpeed = new Vector2(8, 0);
+                    upsSmallSpeed = new Vector2(7, 0);
 
                     fedExBigSpeed = new Vector2(4, 0);
 
-                    fedExSmallSpeed = new Vector2(8, 0);
+                    fedExSmallSpeed = new Vector2(10, 0);
 
-                    canBigSpeed = new Vector2(8, 0);
+                    canBigSpeed = new Vector2(6, 0);
 
                     canSmallSpeed = new Vector2(10, 0);
 
                     dhlBigSpeed = new Vector2(6, 0);
 
-                    dhlSmallSpeed = new Vector2(8, 0);
+                    dhlSmallSpeed = new Vector2(9, 0);
 
-                    amazonBigSpeed = new Vector2(8, 0);
+                    amazonBigSpeed = new Vector2(12, 0);
+
+                    amazonSmallSpeed = new Vector2(12, 0);
                 }
 
                 if (amazonBigRect.Left >= window.Right)
@@ -789,21 +808,23 @@ namespace Delivery_Dog_Fight
                     screen = Screen.LoadingScreen2;
                     upsBigSpeed = new Vector2(6, 0);
 
-                    upsSmallSpeed = new Vector2(8, 0);
+                    upsSmallSpeed = new Vector2(7, 0);
 
                     fedExBigSpeed = new Vector2(4, 0);
 
-                    fedExSmallSpeed = new Vector2(8, 0);
+                    fedExSmallSpeed = new Vector2(10, 0);
 
-                    canBigSpeed = new Vector2(8, 0);
+                    canBigSpeed = new Vector2(6, 0);
 
                     canSmallSpeed = new Vector2(10, 0);
 
                     dhlBigSpeed = new Vector2(6, 0);
 
-                    dhlSmallSpeed = new Vector2(8, 0);
+                    dhlSmallSpeed = new Vector2(9, 0);
 
-                    amazonBigSpeed = new Vector2(8, 0);
+                    amazonBigSpeed = new Vector2(12, 0);
+
+                    amazonSmallSpeed = new Vector2(12, 0);
                 }
 
                 if (amazonSmallRect.Left >= window.Right)
@@ -945,46 +966,257 @@ namespace Delivery_Dog_Fight
                 }
 
 
-                upsBigSpeed = new Vector2(6, 0);
-
-                upsSmallSpeed = new Vector2(8, 0);
-
-                fedExBigSpeed = new Vector2(4, 0);
-
-                fedExSmallSpeed = new Vector2(8, 0);
-
-                canBigSpeed = new Vector2(8, 0);
-
-                canSmallSpeed = new Vector2(10, 0);
-
-                dhlBigSpeed = new Vector2(6, 0);
-
-                dhlSmallSpeed = new Vector2(8, 0);
                 
-                amazonBigSpeed = new Vector2(8, 0);
 
                 upsJetSmallRect.X += (int)upsSmallSpeed.X;
+                upsJetSmallRect.Y += (int)upsSmallSpeed.Y;
 
                 upsJetBigRect.X += (int)upsBigSpeed.X;
                 upsJetBigRect.Y += (int)upsBigSpeed.Y;
 
 
                 fedExBigRect.X += (int)fedExBigSpeed.X;
+                fedExBigRect.Y += (int)fedExBigSpeed.Y;
 
                 fedExSmallRect.X += (int)fedExSmallSpeed.X;
+                fedExSmallRect.Y += (int)fedExSmallSpeed.Y;
 
                 canSmallRect.X += (int)canSmallSpeed.X;
+                canSmallRect.Y += (int)canSmallSpeed.Y;
 
                 canBigRect.X += (int)canBigSpeed.X;
+                canBigRect.Y += (int)canBigSpeed.Y;
 
                 dhlSmallRect.X += (int)dhlSmallSpeed.X;
+                dhlSmallRect.Y += (int)dhlSmallSpeed.Y;
 
                 dhlBigRect.X += (int)dhlBigSpeed.X;
+                dhlBigRect.Y += (int)dhlBigSpeed.Y;
 
                 amazonSmallRect.X += (int)amazonSmallSpeed.X;
+                amazonSmallRect.Y += (int)amazonSmallSpeed.Y;
 
                 amazonBigRect.X += (int)amazonBigSpeed.X;
+                amazonBigRect.Y += (int)amazonBigSpeed.Y;
 
+
+                // Resolve Big UPS Jet
+                //if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && upsJetBigRect.Contains(mouseState.Position))
+                //{
+                //    exploded = true;
+                //    upsBigSpeed.Y = 1;
+                //    explosionRect = upsJetBigRect;
+                //    explosionSound.Play();
+
+                //}
+                //if (upsJetBigRect.Left >= window.Right)
+                //{
+                //    upsJetBigRect.X = -300;
+                //    upsJetBigRect.Y = 20;
+                //    exploded = false;
+                //    upsBigSpeed.Y = 0f;
+                //}
+
+                // Resolve Small UPS Jet
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && upsJetSmallRect.Contains(mouseState.Position))
+                {
+                    exploded1 = true;
+                    upsSmallSpeed.Y = 1;
+                    explosionRect = upsJetSmallRect;
+                    explosionSound.Play();
+                }
+
+                if (upsJetSmallRect.Left >= window.Right)
+                {
+                    upsJetSmallRect.X = -300;
+                    upsJetSmallRect.Y = 190;
+                    exploded1 = false;
+                    upsSmallSpeed.Y = 0f;
+
+                }
+
+                ////Resolve Big CanPost Jet
+
+                //if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && canBigRect.Contains(mouseState.Position))
+                //{
+                //    exploded4 = true;
+                //    canBigSpeed.Y = 1;
+                //    explosionRect = canBigRect;
+                //    explosionSound.Play();
+                //    screen = Screen.FailedScreen;
+                //}
+
+                //if (canBigRect.Left >= window.Right)
+                //{
+                //    canBigRect.X = -300;
+                //    canBigRect.Y = 204;
+                //    exploded4 = false;
+                //    canBigSpeed.Y = 0f;
+                //}
+
+                //Resolve Small CanPost Jet
+
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && canSmallRect.Contains(mouseState.Position))
+                {
+                    exploded5 = true;
+                    canSmallSpeed.Y = 1;
+                    explosionRect = canSmallRect;
+                    explosionSound.Play();
+                    screen = Screen.FailedScreen;
+                }
+
+                if (canSmallRect.Left >= window.Right)
+                {
+                    canSmallRect.X = -300;
+                    canSmallRect.Y = 160;
+                    canSmallSpeed.Y = 0f;
+                    exploded5 = false;
+                }
+
+                //Resolve Big Amazon Jet
+
+                //if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && amazonBigRect.Contains(mouseState.Position))
+                //{
+                //    exploded8 = true;
+                //    amazonBigSpeed.Y = 1;
+                //    explosionRect = amazonBigRect;
+                //    explosionSound.Play();
+                //    screen = Screen.LoadingScreen2;
+                //    upsBigSpeed = new Vector2(6, 0);
+
+                //    upsSmallSpeed = new Vector2(8, 0);
+
+                //    fedExBigSpeed = new Vector2(4, 0);
+
+                //    fedExSmallSpeed = new Vector2(8, 0);
+
+                //    canBigSpeed = new Vector2(8, 0);
+
+                //    canSmallSpeed = new Vector2(10, 0);
+
+                //    dhlBigSpeed = new Vector2(6, 0);
+
+                //    dhlSmallSpeed = new Vector2(8, 0);
+
+                //    amazonBigSpeed = new Vector2(8, 0);
+                //}
+
+                //if (amazonBigRect.Left >= window.Right)
+                //{
+                //    amazonBigRect.X = -300;
+                //    amazonBigRect.Y = 120;
+                //    amazonBigSpeed.Y = 0f;
+                //    exploded8 = false;
+                //}
+
+                //Resolve Small Amazon Jet
+
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && amazonSmallRect.Contains(mouseState.Position))
+                {
+                    exploded9 = true;
+                    amazonSmallSpeed.Y = 1;
+                    explosionRect = amazonSmallRect;
+                    explosionSound.Play();
+                    screen = Screen.Done;
+                    upsBigSpeed = new Vector2(6, 0);
+
+                    upsSmallSpeed = new Vector2(8, 0);
+
+                    fedExBigSpeed = new Vector2(4, 0);
+
+                    fedExSmallSpeed = new Vector2(8, 0);
+
+                    canBigSpeed = new Vector2(8, 0);
+
+                    canSmallSpeed = new Vector2(10, 0);
+
+                    dhlBigSpeed = new Vector2(6, 0);
+
+                    dhlSmallSpeed = new Vector2(8, 0);
+
+                    amazonBigSpeed = new Vector2(8, 0);
+                }
+
+                if (amazonSmallRect.Left >= window.Right)
+                {
+                    amazonSmallRect.X = -300;
+                    amazonSmallRect.Y = 160;
+                    amazonSmallSpeed.Y = 0f;
+                    exploded9 = false;
+                }
+
+                //Resolve DHL Big Jet
+
+                //if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && dhlBigRect.Contains(mouseState.Position))
+                //{
+                //    exploded6 = true;
+                //    dhlBigSpeed.Y = 1;
+                //    explosionSound.Play();
+                //    explosionRect = dhlBigRect;
+                //}
+
+                //if (dhlBigRect.Left >= window.Right)
+                //{
+                //    dhlBigRect.X = -300;
+                //    dhlBigRect.Y = 204;
+                //    dhlBigSpeed.Y = 0f;
+                //    exploded6 = false;
+                //}
+
+                //Resolve DHL Small Jet
+
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && dhlSmallRect.Contains(mouseState.Position))
+                {
+                    exploded7 = true;
+                    dhlSmallSpeed.Y = 1;
+                    explosionSound.Play();
+                    explosionRect = dhlSmallRect;
+                }
+
+                if (dhlSmallRect.Left >= window.Right)
+                {
+                    dhlSmallRect.X = -300;
+                    dhlSmallRect.Y = 277;
+                    dhlSmallSpeed.Y = 0f;
+                    exploded7 = false;
+                }
+
+                ////Resolve Big FedEx Jet
+
+                //if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && fedExBigRect.Contains(mouseState.Position))
+                //{
+                //    exploded2 = true;
+                //    fedExBigSpeed.Y = 1;
+                //    explosionSound.Play();
+                //    explosionRect = fedExBigRect;
+                //}
+
+                //if (fedExBigRect.Left >= window.Right)
+                //{
+                //    fedExBigRect.X = -300;
+                //    fedExBigRect.Y = 40;
+                //    fedExBigSpeed.Y = 0f;
+                //    exploded2 = false;
+
+                //}
+
+                //Resolve Small FedEx Jet
+
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && fedExSmallRect.Contains(mouseState.Position))
+                {
+                    exploded3 = true;
+                    fedExSmallSpeed.Y = 1;
+                    explosionRect = fedExSmallRect;
+                    explosionSound.Play();
+                }
+
+                if (fedExSmallRect.Left >= window.Right)
+                {
+                    fedExSmallRect.X = -300;
+                    fedExSmallRect.Y = 210;
+                    fedExSmallSpeed.Y = 0f;
+                    exploded3 = false;
+                }
 
             }
 
@@ -997,7 +1229,6 @@ namespace Delivery_Dog_Fight
                     screen = Screen.LevelSelect;
                 }
             }
-
 
 
             else if (screen == Screen.Done)
@@ -1169,26 +1400,20 @@ namespace Delivery_Dog_Fight
                 IsMouseVisible = true;
             }
 
-            if (screen == Screen.Level3) //get rid of big jets here.
+            if (screen == Screen.Done) 
+            {
+                _spriteBatch.DrawString(textFont, "You Win! Press E to Go Back To Menu!", new Vector2(300, 300), Color.White);
+                IsMouseVisible = true;
+            }
+
+            if (screen == Screen.Level3) 
             {
                 _spriteBatch.DrawString(textFont, "Level 3: Take out All Enemy Planes!", new Vector2(20, 20), Color.White);
-
-                _spriteBatch.Draw(upsJetTextureBig, upsJetBigRect, Color.White);
-                if (exploded)
-                {
-                    _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
-                }
 
                 _spriteBatch.Draw(upsJetTextureSmall, upsJetSmallRect, Color.White);
                 if (exploded1)
                 {
                     _spriteBatch.Draw(explosionTexture, upsJetSmallRect, Color.White);
-                }
-
-                _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
-                if (exploded2)
-                {
-                    _spriteBatch.Draw(explosionTexture, fedExBigRect, Color.White);
                 }
 
                 _spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
@@ -1197,34 +1422,16 @@ namespace Delivery_Dog_Fight
                     _spriteBatch.Draw(explosionTexture, fedExSmallRect, Color.White);
                 }
 
-                _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
-                if (exploded4)
-                {
-                    _spriteBatch.Draw(explosionTexture, canBigRect, Color.White);
-                }
-
                 _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
                 if (exploded5)
                 {
                     _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White);
                 }
 
-                _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
-                if (exploded6)
-                {
-                    _spriteBatch.Draw(explosionTexture, dhlBigRect, Color.White);
-                }
-
                 _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
                 if (exploded7)
                 {
                     _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);
-                }
-
-                _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
-                if (exploded8)
-                {
-                    _spriteBatch.Draw(explosionTexture, amazonBigRect, Color.White);
                 }
 
                 _spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
@@ -1237,108 +1444,8 @@ namespace Delivery_Dog_Fight
                 _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
-            //Use the following for lvl.2 and 3 (the small jets):
 
-            //if (exploded1)
-            //{
-            //    _spriteBatch.Draw(explosionTexture, upsJetSmallRect, Color.White);
-
-            //    explosionSound.Play();
-
-            //    _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
-            //}
-
-
-
-            //if (exploded3)
-            //{
-            //    _spriteBatch.Draw(explosionTexture, fedExSmallRect, Color.White);
-
-            //    explosionSound.Play();
-
-            //    _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
-            //}
-
-
-
-            //if (exploded5)
-            //{
-            //    _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White);
-
-            //    explosionSound.Play();
-
-            //    _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
-            //}
-
-            //if (exploded6)
-            //{
-            //    _spriteBatch.Draw(explosionTexture, dhlBigRect, Color.White);
-
-            //    explosionSound.Play();
-
-            //    _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
-            //}
-
-            //if (exploded7)
-            //{
-            //    _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);
-
-            //    explosionSound.Play();
-
-            //    _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
-            //}
-
-
-            //if (exploded8)
-            //{
-            //    _spriteBatch.Draw(explosionTexture, amazonBigRect, Color.White);
-
-            //    explosionSound.Play();
-
-            //    _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
-            //}
-
-            //if (exploded9)
-            //{
-            //    _spriteBatch.Draw(explosionTexture, amazonSmallRect, Color.White);
-
-            //    explosionSound.Play();
-
-            //    _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
-            //}
-
-
-
-
-
-            //_spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
-
-            //_spriteBatch.Draw(upsJetTextureBig, upsJetBigRect, Color.White);
-
-            //_spriteBatch.Draw(upsJetTextureSmall, upsJetSmallRect, Color.White);
-
-            //_spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
-
-            //_spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
-
-            //_spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
-
-            //_spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
-
-            //_spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
-
-            //_spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
-
-            //_spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
-
-            //_spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
-
-            //_spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
-
-            //_spriteBatch.DrawString(textFont, "Take Em OUT!!", new Vector2(20, 20), Color.White);   
-
-
-            //Create th explosion, and how to detect when a plane was shot  :D
+            //Create the explosion, and how to detect when a plane was shot  :D
 
             _spriteBatch.End();
 
