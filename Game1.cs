@@ -45,11 +45,11 @@ namespace Delivery_Dog_Fight
 
         int timer;
 
-        bool time = false, level1 = false, level2 = false, level3 = false, exploded, exploded1, exploded2, exploded3, exploded4, exploded5, exploded6, exploded7, exploded8, exploded9, reset1, reset2, reset3;
+        bool missionFailed, time = false, level1 = false, level2 = false, level3 = false, exploded, exploded1, exploded2, exploded3, exploded4, exploded5, exploded6, exploded7, exploded8, exploded9, reset1, reset2, reset3;
 
-        SoundEffect shootSound, explosionSound, dangerZoneSong;
+        SoundEffect shootSound, anthemSound, failedSound, explosionSound, dangerZoneSound;
 
-        SoundEffectInstance shootSoundInstance, explosionSoundInstance, dangerZoneInstance;
+        SoundEffectInstance shootSoundInstance, anthemSoundInstance, failedSoundInstance, explosionSoundInstance, dangerZoneInstance;
 
         //Last Things: Clean Up "In Between" Screens, Sound Effects, Music, Fix Front page, Make Eject Button Work, Make "Exit" Button Work.
 
@@ -76,6 +76,7 @@ namespace Delivery_Dog_Fight
 
             timer = 0;
 
+            missionFailed = false;
             reset1 = false;
             reset2 = false;
             reset3 = false;
@@ -166,7 +167,19 @@ namespace Delivery_Dog_Fight
 
             upsJetTextureBig = Content.Load<Texture2D>("UPSJetBig");
 
+            dangerZoneSound = Content.Load<SoundEffect>("DangerZone");
+
+            dangerZoneInstance = dangerZoneSound.CreateInstance();
+
+            anthemSound = Content.Load<SoundEffect>("topGunAnthem");
+
+            anthemSoundInstance = anthemSound.CreateInstance();
+
             upsJetTextureSmall = Content.Load<Texture2D>("UPSJetSmall");
+
+            failedSound = Content.Load<SoundEffect>("missionFailed");
+
+            failedSoundInstance = failedSound.CreateInstance();
 
             fedExJetTextureBig = Content.Load<Texture2D>("fedExJetBig");
 
@@ -190,13 +203,13 @@ namespace Delivery_Dog_Fight
 
             amazonJetSmallTexture = Content.Load<Texture2D>("AmazonJetSmall");
 
-            //dangerZoneSong = Content.Load<SoundEffect>("dangerZone");
+            explosionSoundInstance = Content.Load<SoundEffect>("explosion (1)").CreateInstance();
 
             textFont = Content.Load<SpriteFont>("TextFont1");
 
             explosionSound = Content.Load<SoundEffect>("explosion (1)");
 
-            //dangerZoneInstance = dangerZoneSong.CreateInstance();
+            
 
 
             // TODO: use this.Content to load your game content here
@@ -226,6 +239,13 @@ namespace Delivery_Dog_Fight
 
             if (screen == Screen.LevelSelect)
             {
+                failedSoundInstance.Stop();
+                anthemSoundInstance.Stop();
+                explosionSoundInstance.Stop();
+
+                dangerZoneInstance.Play();
+
+
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && playRect.Contains(mouseState.Position))
                 {
                     screen = Screen.TipScreen;
@@ -235,8 +255,9 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.TipScreen)
             {
-
-
+                dangerZoneInstance.Stop();
+                explosionSoundInstance.Stop();
+                anthemSoundInstance.Play();
 
                 if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
                 {
@@ -248,6 +269,9 @@ namespace Delivery_Dog_Fight
 
             else if(screen == Screen.LoadingScreen1)
             {
+                explosionSoundInstance.Stop();
+                anthemSoundInstance.Play();
+
                 if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
                 {
                     screen = Screen.Level2;
@@ -257,6 +281,8 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.LoadingScreen2)
             {
+                explosionSoundInstance.Stop();
+                anthemSoundInstance.Play();
 
                 upsBigSpeed = new Vector2(6, 0);
 
@@ -287,7 +313,7 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.Level1)
             {
-
+                anthemSoundInstance.Stop();
 
                 if (reset1)
                 {
@@ -381,7 +407,7 @@ namespace Delivery_Dog_Fight
                     exploded = true;
                     upsBigSpeed.Y = 1;
                     explosionRect = upsJetBigRect;
-                    explosionSound.Play();
+                    ExplosionSound();
 
                 }
                 if (upsJetBigRect.Left >= window.Right)
@@ -398,7 +424,7 @@ namespace Delivery_Dog_Fight
                     exploded1 = true;
                     upsSmallSpeed.Y = 1;
                     explosionRect = upsJetSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                 }
 
                 if (upsJetSmallRect.Left >= window.Right)
@@ -417,8 +443,9 @@ namespace Delivery_Dog_Fight
                     exploded4 = true;
                     canBigSpeed.Y = 1;
                     explosionRect = canBigRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.FailedScreen;
+                    missionFailed = true;
                 }
 
                 if (canBigRect.Left >= window.Right)
@@ -436,8 +463,9 @@ namespace Delivery_Dog_Fight
                     exploded5 = true;
                     canSmallSpeed.Y = 1;
                     explosionRect = canSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.FailedScreen;
+                    missionFailed = true;
                 }
 
                 if (canSmallRect.Left >= window.Right)
@@ -455,7 +483,7 @@ namespace Delivery_Dog_Fight
                     exploded8 = true;
                     amazonBigSpeed.Y = 1;
                     explosionRect = amazonBigRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.LoadingScreen1;
                     upsBigSpeed = new Vector2(3, 0);
 
@@ -491,7 +519,7 @@ namespace Delivery_Dog_Fight
                     exploded9 = true;
                     amazonSmallSpeed.Y = 1;
                     explosionRect = amazonSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.LoadingScreen1;
                     upsBigSpeed = new Vector2(3, 0);
 
@@ -526,7 +554,7 @@ namespace Delivery_Dog_Fight
                 {
                     exploded6 = true;
                     dhlBigSpeed.Y = 1;
-                    explosionSound.Play();
+                    ExplosionSound();
                     explosionRect = dhlBigRect;
                 }
 
@@ -544,7 +572,7 @@ namespace Delivery_Dog_Fight
                 {
                     exploded7 = true;
                     dhlSmallSpeed.Y = 1;
-                    explosionSound.Play();
+                    ExplosionSound();
                     explosionRect = dhlSmallRect;
                 }
 
@@ -562,7 +590,7 @@ namespace Delivery_Dog_Fight
                 {
                     exploded2 = true;
                     fedExBigSpeed.Y = 1;
-                    explosionSound.Play();
+                    ExplosionSound();
                     explosionRect = fedExBigRect;
                 }
 
@@ -582,7 +610,7 @@ namespace Delivery_Dog_Fight
                     exploded3 = true;
                     fedExSmallSpeed.Y = 1;
                     explosionRect = fedExSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                 }
 
                 if (fedExSmallRect.Left >= window.Right)
@@ -600,7 +628,7 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.Level2)
             {
-
+                anthemSoundInstance.Stop();
 
                 if (reset2)
                 {
@@ -692,8 +720,8 @@ namespace Delivery_Dog_Fight
                     exploded = true;
                     upsBigSpeed.Y = 1;
                     explosionRect = upsJetBigRect;
-                    explosionSound.Play();
 
+                    ExplosionSound();
                 }
                 if (upsJetBigRect.Left >= window.Right)
                 {
@@ -709,7 +737,7 @@ namespace Delivery_Dog_Fight
                     exploded1 = true;
                     upsSmallSpeed.Y = 1;
                     explosionRect = upsJetSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                 }
 
                 if (upsJetSmallRect.Left >= window.Right)
@@ -728,8 +756,9 @@ namespace Delivery_Dog_Fight
                     exploded4 = true;
                     canBigSpeed.Y = 1;
                     explosionRect = canBigRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.FailedScreen;
+                    missionFailed = true;
                 }
 
                 if (canBigRect.Left >= window.Right)
@@ -747,8 +776,9 @@ namespace Delivery_Dog_Fight
                     exploded5 = true;
                     canSmallSpeed.Y = 1;
                     explosionRect = canSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.FailedScreen;
+                    missionFailed = true;
                 }
 
                 if (canSmallRect.Left >= window.Right)
@@ -766,7 +796,7 @@ namespace Delivery_Dog_Fight
                     exploded8 = true;
                     amazonBigSpeed.Y = 1;
                     explosionRect = amazonBigRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.LoadingScreen2;
                     upsBigSpeed = new Vector2(6, 0);
 
@@ -804,7 +834,7 @@ namespace Delivery_Dog_Fight
                     exploded9 = true;
                     amazonSmallSpeed.Y = 1;
                     explosionRect = amazonSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.LoadingScreen2;
                     upsBigSpeed = new Vector2(6, 0);
 
@@ -841,7 +871,7 @@ namespace Delivery_Dog_Fight
                 {
                     exploded6 = true;
                     dhlBigSpeed.Y = 1;
-                    explosionSound.Play();
+                    ExplosionSound();
                     explosionRect = dhlBigRect;
                 }
 
@@ -859,7 +889,7 @@ namespace Delivery_Dog_Fight
                 {
                     exploded7 = true;
                     dhlSmallSpeed.Y = 1;
-                    explosionSound.Play();
+                    ExplosionSound();
                     explosionRect = dhlSmallRect;
                 }
 
@@ -877,7 +907,7 @@ namespace Delivery_Dog_Fight
                 {
                     exploded2 = true;
                     fedExBigSpeed.Y = 1;
-                    explosionSound.Play();
+                    ExplosionSound();
                     explosionRect = fedExBigRect;
                 }
 
@@ -897,7 +927,7 @@ namespace Delivery_Dog_Fight
                     exploded3 = true;
                     fedExSmallSpeed.Y = 1;
                     explosionRect = fedExSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                 }
 
                 if (fedExSmallRect.Left >= window.Right)
@@ -915,6 +945,7 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.Level3)
             {
+                anthemSoundInstance.Stop();
 
                 if (reset3)
                 {
@@ -1023,16 +1054,17 @@ namespace Delivery_Dog_Fight
                     exploded1 = true;
                     upsSmallSpeed.Y = 1;
                     explosionRect = upsJetSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                 }
 
                 if (upsJetSmallRect.Left >= window.Right)
                 {
+                    
                     upsJetSmallRect.X = -300;
                     upsJetSmallRect.Y = 190;
                     exploded1 = false;
                     upsSmallSpeed.Y = 0f;
-
+                    
                 }
 
                 ////Resolve Big CanPost Jet
@@ -1061,15 +1093,18 @@ namespace Delivery_Dog_Fight
                     exploded5 = true;
                     canSmallSpeed.Y = 1;
                     explosionRect = canSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.FailedScreen;
+                    missionFailed = true;
                 }
 
                 if (canSmallRect.Left >= window.Right)
                 {
+                    
                     canSmallRect.X = -300;
                     canSmallRect.Y = 160;
                     canSmallSpeed.Y = 0f;
+                    
                     exploded5 = false;
                 }
 
@@ -1116,7 +1151,7 @@ namespace Delivery_Dog_Fight
                     exploded9 = true;
                     amazonSmallSpeed.Y = 1;
                     explosionRect = amazonSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                     screen = Screen.Done;
                     upsBigSpeed = new Vector2(6, 0);
 
@@ -1139,10 +1174,12 @@ namespace Delivery_Dog_Fight
 
                 if (amazonSmallRect.Left >= window.Right)
                 {
+                    
                     amazonSmallRect.X = -300;
                     amazonSmallRect.Y = 160;
                     amazonSmallSpeed.Y = 0f;
                     exploded9 = false;
+                    
                 }
 
                 //Resolve DHL Big Jet
@@ -1169,16 +1206,18 @@ namespace Delivery_Dog_Fight
                 {
                     exploded7 = true;
                     dhlSmallSpeed.Y = 1;
-                    explosionSound.Play();
+                    ExplosionSound();
                     explosionRect = dhlSmallRect;
                 }
 
                 if (dhlSmallRect.Left >= window.Right)
                 {
+                    
                     dhlSmallRect.X = -300;
                     dhlSmallRect.Y = 277;
                     dhlSmallSpeed.Y = 0f;
                     exploded7 = false;
+                    
                 }
 
                 ////Resolve Big FedEx Jet
@@ -1207,15 +1246,17 @@ namespace Delivery_Dog_Fight
                     exploded3 = true;
                     fedExSmallSpeed.Y = 1;
                     explosionRect = fedExSmallRect;
-                    explosionSound.Play();
+                    ExplosionSound();
                 }
 
                 if (fedExSmallRect.Left >= window.Right)
                 {
+                    
                     fedExSmallRect.X = -300;
                     fedExSmallRect.Y = 210;
                     fedExSmallSpeed.Y = 0f;
                     exploded3 = false;
+                    
                 }
 
             }
@@ -1224,6 +1265,14 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.FailedScreen)
             {
+                explosionSoundInstance.Stop();
+                
+
+                if (missionFailed)
+                {
+                    failedSoundInstance.Play();
+                    missionFailed = false;
+                }
                 if (keyboardState.IsKeyDown(Keys.R) && prevKeyboardState.IsKeyUp(Keys.R))
                 {
                     screen = Screen.LevelSelect;
@@ -1233,6 +1282,9 @@ namespace Delivery_Dog_Fight
 
             else if (screen == Screen.Done)
             {
+                explosionSoundInstance.Stop();
+                anthemSoundInstance.Play();
+
                 if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
                 {
                     screen = Screen.LevelSelect;
@@ -1293,30 +1345,37 @@ namespace Delivery_Dog_Fight
                 {
                     _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
 
+                    
+
                 }
                
                 _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
                 if (exploded2)
                 {
                     _spriteBatch.Draw(explosionTexture, fedExBigRect, Color.White);
+
+                    
                 }
 
                 _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
                 if (exploded4)
                 {
                     _spriteBatch.Draw(explosionTexture, canBigRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
                 if(exploded6)
                 {
                     _spriteBatch.Draw(explosionTexture, dhlBigRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
                 if(exploded8)
                 {
                     _spriteBatch.Draw(explosionTexture, amazonBigRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
@@ -1333,60 +1392,70 @@ namespace Delivery_Dog_Fight
                 if (exploded)
                 {
                     _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
+                    
                 }
                 
                 _spriteBatch.Draw(upsJetTextureSmall, upsJetSmallRect, Color.White);
                 if (exploded1)
                 {
                     _spriteBatch.Draw(explosionTexture, upsJetSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
                 if (exploded2)
                 {
                     _spriteBatch.Draw(explosionTexture, fedExBigRect, Color.White);
+                    
                 }
                 
                 _spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
                 if (exploded3)
                 {
                     _spriteBatch.Draw(explosionTexture, fedExSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
                 if (exploded4)
                 {
                     _spriteBatch.Draw(explosionTexture, canBigRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
                 if (exploded5)
                 {
-                    _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White); 
+                    _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
                 if (exploded6)
                 {
                     _spriteBatch.Draw(explosionTexture, dhlBigRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
                 if (exploded7)
                 {
-                    _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);  
+                    _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
                 if (exploded8)
                 {
                     _spriteBatch.Draw(explosionTexture, amazonBigRect, Color.White);
+                    
                 }
                 
                 _spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
                 if (exploded9)
                 {
                     _spriteBatch.Draw(explosionTexture, amazonSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
@@ -1414,30 +1483,35 @@ namespace Delivery_Dog_Fight
                 if (exploded1)
                 {
                     _spriteBatch.Draw(explosionTexture, upsJetSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
                 if (exploded3)
                 {
                     _spriteBatch.Draw(explosionTexture, fedExSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
                 if (exploded5)
                 {
                     _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
                 if (exploded7)
                 {
                     _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
                 if (exploded9)
                 {
                     _spriteBatch.Draw(explosionTexture, amazonSmallRect, Color.White);
+                    
                 }
 
                 _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
@@ -1452,6 +1526,12 @@ namespace Delivery_Dog_Fight
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        public void ExplosionSound() 
+        {
+            explosionSoundInstance.Stop();
+            explosionSoundInstance.Play();
         }
     }
 }
