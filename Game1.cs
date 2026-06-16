@@ -35,9 +35,9 @@ namespace Delivery_Dog_Fight
 
         KeyboardState keyboardState, prevKeyboardState;
 
-        Texture2D introJetTexture, homeScreentexture, crossHairTexture, cockpitTexture, upsJetTextureBig, upsJetTextureSmall, fedExJetTextureBig, fedExJetTextureSmall, canJetSmallTexture, canJetBigTexture, dhlJetBigTexture, dhlJetSmallTexture, amazonJetSmallTexture, amazonJetBigTexture, explosionTexture;
+        Texture2D introJetTexture, happyTexture, victoryTexture, homeScreentexture, crossHairTexture, cockpitTexture, upsJetTextureBig, upsJetTextureSmall, fedExJetTextureBig, fedExJetTextureSmall, canJetSmallTexture, canJetBigTexture, dhlJetBigTexture, dhlJetSmallTexture, amazonJetSmallTexture, amazonJetBigTexture, explosionTexture;
 
-        Rectangle upsJetBigRect, playRect, gameHomeRect, crossHairRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, canSmallRect, canBigRect, amazonSmallRect, amazonBigRect, dhlSmallRect, dhlBigRect, introJetRect, window, quitRect, cockpitRect, explosionRect;
+        Rectangle upsJetBigRect, tutorialCanRect, happyrect, victoryRect, tutorialAmzRect, playRect, gameHomeRect, crossHairRect, upsJetSmallRect, fedExBigRect, fedExSmallRect, canSmallRect, canBigRect, amazonSmallRect, amazonBigRect, dhlSmallRect, dhlBigRect, introJetRect, window, quitRect, ejectRect, cockpitRect, explosionRect;
 
         SpriteFont textFont;
 
@@ -97,29 +97,39 @@ namespace Delivery_Dog_Fight
 
             upsJetBigRect = new Rectangle(20, 20, 300, 98);
 
+            tutorialAmzRect = new Rectangle(838, 382 ,100, 32); //chf
+
+            tutorialCanRect = new Rectangle(890, 301, 100, 32); //chf
+
             fedExBigRect = new Rectangle(300, 40, 300, 98);
+
+            victoryRect = new Rectangle(0, 0, 1000, 571);
+
+            happyrect = new Rectangle(681, 511, 250, 123);
 
             upsJetSmallRect = new Rectangle(40, 190, 100, 32); //s
 
             fedExSmallRect = new Rectangle(80, 210, 100, 32); //s
 
-            amazonBigRect = new Rectangle(20, 120, 300, 110);
+            amazonBigRect = new Rectangle(20, 120, 350, 110); //300 before it was 350
 
             amazonSmallRect = new Rectangle(40, 160, 100, 32); //s
 
-            introJetRect = new Rectangle(277, 25, 500, 144);
+            introJetRect = new Rectangle(244, 25, 500, 144);
 
             cockpitRect = new Rectangle(0, 10, 1000, 710);
 
             quitRect = new Rectangle(431, 673, 123, 29);
 
+            ejectRect = new Rectangle(429, 689,127, 20);
+
             canBigRect = new Rectangle(5, 204, 300, 86);
 
             dhlBigRect = new Rectangle(300, 204, 300, 96);
 
-            playRect = new Rectangle(395, 290, 188, 48);
+            playRect = new Rectangle(395, 339, 200, 50);
 
-            quitRect = new Rectangle(455, 446, 95, 42);
+            quitRect = new Rectangle(448, 400, 102, 46);
 
             dhlSmallRect = new Rectangle(540, 204, 100, 32); //s
 
@@ -165,9 +175,13 @@ namespace Delivery_Dog_Fight
 
             cockpitTexture = Content.Load<Texture2D>("CockpitTransparentDone");
 
+            victoryTexture = Content.Load<Texture2D>("YouWin");
+
             upsJetTextureBig = Content.Load<Texture2D>("UPSJetBig");
 
             dangerZoneSound = Content.Load<SoundEffect>("DangerZone");
+
+            happyTexture = Content.Load<Texture2D>("1");
 
             dangerZoneInstance = dangerZoneSound.CreateInstance();
 
@@ -187,7 +201,7 @@ namespace Delivery_Dog_Fight
 
             explosionTexture = Content.Load<Texture2D>("explosion");
 
-            homeScreentexture = Content.Load<Texture2D>("gameHome100");
+            homeScreentexture = Content.Load<Texture2D>("DDIntro");
 
             canJetBigTexture = Content.Load<Texture2D>("canadaPostBig");
 
@@ -234,7 +248,15 @@ namespace Delivery_Dog_Fight
 
 
 
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && quitRect.Contains(mouseState.Position)) 
+            {
+                Exit();
+            }
 
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && ejectRect.Contains(mouseState.Position))
+            {
+                Exit();
+            }
 
 
             if (screen == Screen.LevelSelect)
@@ -1319,17 +1341,23 @@ namespace Delivery_Dog_Fight
 
             if (screen == Screen.TipScreen) 
             {
-                _spriteBatch.DrawString(textFont, "Tip: Click the planes to shoot them down! Press E to start Level 1!", new Vector2(100, 300), Color.White);
+                _spriteBatch.DrawString(textFont, "Tip: Canada Post are friendly-Don't shoot them! \n\n Shoot Amazon Jets to go to the next level. \n\n Click E To Continue!", new Vector2(44, 300), Color.White);
+                _spriteBatch.Draw(canJetSmallTexture, tutorialCanRect, Color.White);
+                _spriteBatch.Draw(amazonJetSmallTexture, tutorialAmzRect, Color.White);
             }
 
             if (screen == Screen.LoadingScreen1) 
             {
-                _spriteBatch.DrawString(textFont, "Press E to start Level 2!", new Vector2(400, 300), Color.White);
-            }
+                _spriteBatch.DrawString(textFont, "Press E to start Level 2!", new Vector2(300, 300), Color.White); //was 400
+                _spriteBatch.Draw(introJetTexture, introJetRect, Color.White);
+                IsMouseVisible = true;
+            }    
 
             if (screen == Screen.LoadingScreen2) 
             {
-                _spriteBatch.DrawString(textFont, "Press E to start Level 3!", new Vector2(400, 300), Color.White);
+                _spriteBatch.DrawString(textFont, "Press E to start Level 3!", new Vector2(300, 300), Color.White);
+                _spriteBatch.Draw(introJetTexture, introJetRect, Color.White);
+                IsMouseVisible = true;
             }
 
             if (screen == Screen.Level1) 
@@ -1464,14 +1492,20 @@ namespace Delivery_Dog_Fight
 
             if (screen == Screen.FailedScreen) 
             {
-                _spriteBatch.DrawString(textFont, "You Failed! Press R to Go Back To Menu!", new Vector2(300, 300), Color.White);
+                _spriteBatch.DrawString(textFont, "You Failed! Press R to Go Back To Menu!", new Vector2(200, 300), Color.White);
+                _spriteBatch.Draw(introJetTexture, introJetRect, Color.White);
+                
+                
 
                 IsMouseVisible = true;
             }
 
             if (screen == Screen.Done) 
             {
-                _spriteBatch.DrawString(textFont, "You Win! Press E to Go Back To Menu!", new Vector2(300, 300), Color.White);
+                _spriteBatch.DrawString(textFont, "Mission Complete! \n\n Press E to Go Back To Menu!", new Vector2(200, 300), Color.White);
+                _spriteBatch.Draw(happyTexture, happyrect, Color.White);
+                _spriteBatch.Draw(victoryTexture, victoryRect, Color.White);
+
                 IsMouseVisible = true;
             }
 
