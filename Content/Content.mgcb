@@ -262,6 +262,18 @@
 /processorParam:Quality=Best
 /build:missionFailed.mp3
 
+#begin pyroVoicelineGood.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pyroVoicelineGood.mp3
+
+#begin pyroVoiceWon.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pyroVoiceWon.mp3
+
 #begin textFont.spritefont
 /importer:FontDescriptionImporter
 /processor:LocalizedFontProcessor

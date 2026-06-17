@@ -7,14 +7,14 @@ using System;
 namespace Delivery_Dog_Fight
 {
 
-    enum Screen 
+    enum Screen
     {
-        LevelSelect, 
+        LevelSelect,
         TipScreen,
         Level1,
         LoadingScreen1,
         LoadingScreen2,
-        Level2,   
+        Level2,
         Level3,
         FailedScreen,
         Done
@@ -45,11 +45,11 @@ namespace Delivery_Dog_Fight
 
         int timer;
 
-        bool missionFailed, time = false, level1 = false, level2 = false, level3 = false, exploded, exploded1, exploded2, exploded3, exploded4, exploded5, exploded6, exploded7, exploded8, exploded9, reset1, reset2, reset3;
+        bool missionFailed, /*time = false, level1 = false, level2 = false, level3 = false*//*,*/ exploded, exploded1, exploded2, exploded3, exploded4, exploded5, exploded6, exploded7, exploded8, exploded9, reset1, reset2, reset3;
 
-        SoundEffect shootSound, anthemSound, failedSound, explosionSound, dangerZoneSound;
+        SoundEffect tutorialSound, winSpeechSound, anthemSound, failedSound, explosionSound, dangerZoneSound;
 
-        SoundEffectInstance shootSoundInstance, anthemSoundInstance, failedSoundInstance, explosionSoundInstance, dangerZoneInstance;
+        SoundEffectInstance tutorialSoundInstance, winSpeechSoundInstance, anthemSoundInstance, failedSoundInstance, explosionSoundInstance, dangerZoneInstance;
 
         //Last Things: Clean Up "In Between" Screens, Sound Effects, Music, Fix Front page, Make Eject Button Work, Make "Exit" Button Work.
 
@@ -67,7 +67,7 @@ namespace Delivery_Dog_Fight
             // TODO: Add your initialization logic here
 
 
-         //                       X, Y, Width, Height
+            //                       X, Y, Width, Height
             window = new Rectangle(0, 0, 1000, 710);    //500, 355
 
             _graphics.PreferredBackBufferHeight = window.Height;
@@ -97,7 +97,7 @@ namespace Delivery_Dog_Fight
 
             upsJetBigRect = new Rectangle(20, 20, 300, 98);
 
-            tutorialAmzRect = new Rectangle(838, 382 ,100, 32); //chf
+            tutorialAmzRect = new Rectangle(838, 382, 100, 32); //chf
 
             tutorialCanRect = new Rectangle(890, 301, 100, 32); //chf
 
@@ -119,9 +119,9 @@ namespace Delivery_Dog_Fight
 
             cockpitRect = new Rectangle(0, 10, 1000, 710);
 
-            quitRect = new Rectangle(431, 673, 123, 29);
+            //quitRect = new Rectangle(431, 673, 123, 29);
 
-            ejectRect = new Rectangle(429, 689,127, 20);
+            ejectRect = new Rectangle(429, 689, 127, 20);
 
             canBigRect = new Rectangle(5, 204, 300, 86);
 
@@ -162,7 +162,7 @@ namespace Delivery_Dog_Fight
             dhlBigSpeed = new Vector2(4, 0);
 
             amazonBigSpeed = new Vector2(2, 0);
-            amazonSmallSpeed = new Vector2(4, 0);   
+            amazonSmallSpeed = new Vector2(4, 0);
 
             base.Initialize();
         }
@@ -180,6 +180,14 @@ namespace Delivery_Dog_Fight
             upsJetTextureBig = Content.Load<Texture2D>("UPSJetBig");
 
             dangerZoneSound = Content.Load<SoundEffect>("DangerZone");
+
+            tutorialSound = Content.Load<SoundEffect>("pyroVoicelineGood");
+
+            winSpeechSound = Content.Load<SoundEffect>("pyroVoiceWon");
+
+            winSpeechSoundInstance = winSpeechSound.CreateInstance();
+
+            tutorialSoundInstance = tutorialSound.CreateInstance();
 
             happyTexture = Content.Load<Texture2D>("1");
 
@@ -223,7 +231,7 @@ namespace Delivery_Dog_Fight
 
             explosionSound = Content.Load<SoundEffect>("explosion (1)");
 
-            
+
 
 
             // TODO: use this.Content to load your game content here
@@ -248,24 +256,21 @@ namespace Delivery_Dog_Fight
 
 
 
-            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && quitRect.Contains(mouseState.Position)) 
-            {
-                Exit();
-            }
-
-            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && ejectRect.Contains(mouseState.Position))
-            {
-                Exit();
-            }
-
+            
 
             if (screen == Screen.LevelSelect)
             {
+                winSpeechSoundInstance.Stop();
                 failedSoundInstance.Stop();
                 anthemSoundInstance.Stop();
                 explosionSoundInstance.Stop();
 
                 dangerZoneInstance.Play();
+
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && quitRect.Contains(mouseState.Position))
+                {
+                    Exit();
+                }
 
 
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && playRect.Contains(mouseState.Position))
@@ -280,6 +285,13 @@ namespace Delivery_Dog_Fight
                 dangerZoneInstance.Stop();
                 explosionSoundInstance.Stop();
                 anthemSoundInstance.Play();
+                tutorialSoundInstance.Play();
+
+                //if (timer >= 1500) 
+                //{
+                //    tutorialSoundInstance.Stop();
+                //    anthemSoundInstance.Play();
+                //}
 
                 if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
                 {
@@ -289,7 +301,7 @@ namespace Delivery_Dog_Fight
 
             }
 
-            else if(screen == Screen.LoadingScreen1)
+            else if (screen == Screen.LoadingScreen1)
             {
                 explosionSoundInstance.Stop();
                 anthemSoundInstance.Play();
@@ -336,6 +348,12 @@ namespace Delivery_Dog_Fight
             else if (screen == Screen.Level1)
             {
                 anthemSoundInstance.Stop();
+                tutorialSoundInstance.Stop();
+
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && ejectRect.Contains(mouseState.Position))
+                {
+                    Exit();
+                }
 
                 if (reset1)
                 {
@@ -651,6 +669,11 @@ namespace Delivery_Dog_Fight
             else if (screen == Screen.Level2)
             {
                 anthemSoundInstance.Stop();
+
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && ejectRect.Contains(mouseState.Position))
+                {
+                    Exit();
+                }
 
                 if (reset2)
                 {
@@ -969,6 +992,11 @@ namespace Delivery_Dog_Fight
             {
                 anthemSoundInstance.Stop();
 
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released && ejectRect.Contains(mouseState.Position))
+                {
+                    Exit();
+                }
+
                 if (reset3)
                 {
                     upsJetBigRect.X = 20;
@@ -1019,7 +1047,7 @@ namespace Delivery_Dog_Fight
                 }
 
 
-                
+
 
                 upsJetSmallRect.X += (int)upsSmallSpeed.X;
                 upsJetSmallRect.Y += (int)upsSmallSpeed.Y;
@@ -1081,12 +1109,12 @@ namespace Delivery_Dog_Fight
 
                 if (upsJetSmallRect.Left >= window.Right)
                 {
-                    
+
                     upsJetSmallRect.X = -300;
                     upsJetSmallRect.Y = 190;
                     exploded1 = false;
                     upsSmallSpeed.Y = 0f;
-                    
+
                 }
 
                 ////Resolve Big CanPost Jet
@@ -1122,11 +1150,11 @@ namespace Delivery_Dog_Fight
 
                 if (canSmallRect.Left >= window.Right)
                 {
-                    
+
                     canSmallRect.X = -300;
                     canSmallRect.Y = 160;
                     canSmallSpeed.Y = 0f;
-                    
+
                     exploded5 = false;
                 }
 
@@ -1196,12 +1224,12 @@ namespace Delivery_Dog_Fight
 
                 if (amazonSmallRect.Left >= window.Right)
                 {
-                    
+
                     amazonSmallRect.X = -300;
                     amazonSmallRect.Y = 160;
                     amazonSmallSpeed.Y = 0f;
                     exploded9 = false;
-                    
+
                 }
 
                 //Resolve DHL Big Jet
@@ -1234,12 +1262,12 @@ namespace Delivery_Dog_Fight
 
                 if (dhlSmallRect.Left >= window.Right)
                 {
-                    
+
                     dhlSmallRect.X = -300;
                     dhlSmallRect.Y = 277;
                     dhlSmallSpeed.Y = 0f;
                     exploded7 = false;
-                    
+
                 }
 
                 ////Resolve Big FedEx Jet
@@ -1273,12 +1301,12 @@ namespace Delivery_Dog_Fight
 
                 if (fedExSmallRect.Left >= window.Right)
                 {
-                    
+
                     fedExSmallRect.X = -300;
                     fedExSmallRect.Y = 210;
                     fedExSmallSpeed.Y = 0f;
                     exploded3 = false;
-                    
+
                 }
 
             }
@@ -1288,7 +1316,7 @@ namespace Delivery_Dog_Fight
             else if (screen == Screen.FailedScreen)
             {
                 explosionSoundInstance.Stop();
-                
+
 
                 if (missionFailed)
                 {
@@ -1306,6 +1334,7 @@ namespace Delivery_Dog_Fight
             {
                 explosionSoundInstance.Stop();
                 anthemSoundInstance.Play();
+                winSpeechSoundInstance.Play();
 
                 if (keyboardState.IsKeyDown(Keys.E) && prevKeyboardState.IsKeyUp(Keys.E))
                 {
@@ -1328,7 +1357,7 @@ namespace Delivery_Dog_Fight
 
             if (screen == Screen.LevelSelect)
             {
-                
+
                 _spriteBatch.Draw(homeScreentexture, gameHomeRect, Color.White);
 
                 _spriteBatch.Draw(introJetTexture, introJetRect, Color.White);
@@ -1339,168 +1368,168 @@ namespace Delivery_Dog_Fight
             }
 
 
-            if (screen == Screen.TipScreen) 
+            if (screen == Screen.TipScreen)
             {
                 _spriteBatch.DrawString(textFont, "Tip: Canada Post are friendly-Don't shoot them! \n\n Shoot Amazon Jets to go to the next level. \n\n Click E To Continue!", new Vector2(44, 300), Color.White);
                 _spriteBatch.Draw(canJetSmallTexture, tutorialCanRect, Color.White);
                 _spriteBatch.Draw(amazonJetSmallTexture, tutorialAmzRect, Color.White);
             }
 
-            if (screen == Screen.LoadingScreen1) 
+            if (screen == Screen.LoadingScreen1)
             {
                 _spriteBatch.DrawString(textFont, "Press E to start Level 2!", new Vector2(300, 300), Color.White); //was 400
                 _spriteBatch.Draw(introJetTexture, introJetRect, Color.White);
                 IsMouseVisible = true;
-            }    
+            }
 
-            if (screen == Screen.LoadingScreen2) 
+            if (screen == Screen.LoadingScreen2)
             {
                 _spriteBatch.DrawString(textFont, "Press E to start Level 3!", new Vector2(300, 300), Color.White);
                 _spriteBatch.Draw(introJetTexture, introJetRect, Color.White);
                 IsMouseVisible = true;
             }
 
-            if (screen == Screen.Level1) 
+            if (screen == Screen.Level1)
             {
                 _spriteBatch.DrawString(textFont, "Take out All Enemy Planes!", new Vector2(20, 20), Color.White);
 
-                
-                
-                
-                
+
+
+
+
                 _spriteBatch.Draw(upsJetTextureBig, upsJetBigRect, Color.White);
                 if (exploded)
                 {
                     _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
 
-                    
-
-                }
-               
-                _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
-                if (exploded2)
-                {
-                    _spriteBatch.Draw(explosionTexture, fedExBigRect, Color.White);
-
-                    
-                }
-
-                _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
-                if (exploded4)
-                {
-                    _spriteBatch.Draw(explosionTexture, canBigRect, Color.White);
-                    
-                }
-
-                _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
-                if(exploded6)
-                {
-                    _spriteBatch.Draw(explosionTexture, dhlBigRect, Color.White);
-                    
-                }
-
-                _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
-                if(exploded8)
-                {
-                    _spriteBatch.Draw(explosionTexture, amazonBigRect, Color.White);
-                    
-                }
-
-                _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
-
-                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
 
 
-            }
-
-            if(screen == Screen.Level2) 
-            {
-                _spriteBatch.DrawString(textFont, "Level 2: Take out All Enemy Planes!", new Vector2(20, 20), Color.White);
-                _spriteBatch.Draw(upsJetTextureBig, upsJetBigRect, Color.White);
-                if (exploded)
-                {
-                    _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
-                    
-                }
-                
-                _spriteBatch.Draw(upsJetTextureSmall, upsJetSmallRect, Color.White);
-                if (exploded1)
-                {
-                    _spriteBatch.Draw(explosionTexture, upsJetSmallRect, Color.White);
-                    
                 }
 
                 _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
                 if (exploded2)
                 {
                     _spriteBatch.Draw(explosionTexture, fedExBigRect, Color.White);
-                    
-                }
-                
-                _spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
-                if (exploded3)
-                {
-                    _spriteBatch.Draw(explosionTexture, fedExSmallRect, Color.White);
-                    
+
+
                 }
 
                 _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
                 if (exploded4)
                 {
                     _spriteBatch.Draw(explosionTexture, canBigRect, Color.White);
-                    
-                }
 
-                _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
-                if (exploded5)
-                {
-                    _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White);
-                    
                 }
 
                 _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
                 if (exploded6)
                 {
                     _spriteBatch.Draw(explosionTexture, dhlBigRect, Color.White);
-                    
-                }
 
-                _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
-                if (exploded7)
-                {
-                    _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);
-                    
                 }
 
                 _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
                 if (exploded8)
                 {
                     _spriteBatch.Draw(explosionTexture, amazonBigRect, Color.White);
-                    
+
                 }
-                
+
+                _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
+
+                _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
+
+
+            }
+
+            if (screen == Screen.Level2)
+            {
+                _spriteBatch.DrawString(textFont, "Level 2: Take out All Enemy Planes!", new Vector2(20, 20), Color.White);
+                _spriteBatch.Draw(upsJetTextureBig, upsJetBigRect, Color.White);
+                if (exploded)
+                {
+                    _spriteBatch.Draw(explosionTexture, upsJetBigRect, Color.White);
+
+                }
+
+                _spriteBatch.Draw(upsJetTextureSmall, upsJetSmallRect, Color.White);
+                if (exploded1)
+                {
+                    _spriteBatch.Draw(explosionTexture, upsJetSmallRect, Color.White);
+
+                }
+
+                _spriteBatch.Draw(fedExJetTextureBig, fedExBigRect, Color.White);
+                if (exploded2)
+                {
+                    _spriteBatch.Draw(explosionTexture, fedExBigRect, Color.White);
+
+                }
+
+                _spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
+                if (exploded3)
+                {
+                    _spriteBatch.Draw(explosionTexture, fedExSmallRect, Color.White);
+
+                }
+
+                _spriteBatch.Draw(canJetBigTexture, canBigRect, Color.White);
+                if (exploded4)
+                {
+                    _spriteBatch.Draw(explosionTexture, canBigRect, Color.White);
+
+                }
+
+                _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
+                if (exploded5)
+                {
+                    _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White);
+
+                }
+
+                _spriteBatch.Draw(dhlJetBigTexture, dhlBigRect, Color.White);
+                if (exploded6)
+                {
+                    _spriteBatch.Draw(explosionTexture, dhlBigRect, Color.White);
+
+                }
+
+                _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
+                if (exploded7)
+                {
+                    _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);
+
+                }
+
+                _spriteBatch.Draw(amazonJetBigTexture, amazonBigRect, Color.White);
+                if (exploded8)
+                {
+                    _spriteBatch.Draw(explosionTexture, amazonBigRect, Color.White);
+
+                }
+
                 _spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
                 if (exploded9)
                 {
                     _spriteBatch.Draw(explosionTexture, amazonSmallRect, Color.White);
-                    
+
                 }
 
                 _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
                 _spriteBatch.Draw(crossHairTexture, crossHairRect, Color.White);
             }
 
-            if (screen == Screen.FailedScreen) 
+            if (screen == Screen.FailedScreen)
             {
                 _spriteBatch.DrawString(textFont, "You Failed! Press R to Go Back To Menu!", new Vector2(200, 300), Color.White);
                 _spriteBatch.Draw(introJetTexture, introJetRect, Color.White);
-                
-                
+
+
 
                 IsMouseVisible = true;
             }
 
-            if (screen == Screen.Done) 
+            if (screen == Screen.Done)
             {
                 _spriteBatch.DrawString(textFont, "Mission Complete! \n\n Press E to Go Back To Menu!", new Vector2(200, 300), Color.White);
                 _spriteBatch.Draw(happyTexture, happyrect, Color.White);
@@ -1509,7 +1538,7 @@ namespace Delivery_Dog_Fight
                 IsMouseVisible = true;
             }
 
-            if (screen == Screen.Level3) 
+            if (screen == Screen.Level3)
             {
                 _spriteBatch.DrawString(textFont, "Level 3: Take out All Enemy Planes!", new Vector2(20, 20), Color.White);
 
@@ -1517,35 +1546,35 @@ namespace Delivery_Dog_Fight
                 if (exploded1)
                 {
                     _spriteBatch.Draw(explosionTexture, upsJetSmallRect, Color.White);
-                    
+
                 }
 
                 _spriteBatch.Draw(fedExJetTextureSmall, fedExSmallRect, Color.White);
                 if (exploded3)
                 {
                     _spriteBatch.Draw(explosionTexture, fedExSmallRect, Color.White);
-                    
+
                 }
 
                 _spriteBatch.Draw(canJetSmallTexture, canSmallRect, Color.White);
                 if (exploded5)
                 {
                     _spriteBatch.Draw(explosionTexture, canSmallRect, Color.White);
-                    
+
                 }
 
                 _spriteBatch.Draw(dhlJetSmallTexture, dhlSmallRect, Color.White);
                 if (exploded7)
                 {
                     _spriteBatch.Draw(explosionTexture, dhlSmallRect, Color.White);
-                    
+
                 }
 
                 _spriteBatch.Draw(amazonJetSmallTexture, amazonSmallRect, Color.White);
                 if (exploded9)
                 {
                     _spriteBatch.Draw(explosionTexture, amazonSmallRect, Color.White);
-                    
+
                 }
 
                 _spriteBatch.Draw(cockpitTexture, cockpitRect, Color.White);
@@ -1562,10 +1591,22 @@ namespace Delivery_Dog_Fight
             base.Draw(gameTime);
         }
 
-        public void ExplosionSound() 
+        public void ExplosionSound()
         {
             explosionSoundInstance.Stop();
             explosionSoundInstance.Play();
+        }
+
+        public void IntroSpeech()
+        {
+            tutorialSoundInstance.Play();
+            tutorialSoundInstance.Stop();
+        }
+
+        public void VictorySpeech()
+        {
+            winSpeechSoundInstance.Stop();
+            winSpeechSoundInstance.Play();
         }
     }
 }
